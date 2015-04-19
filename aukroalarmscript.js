@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name       AukroAlarm
 // @namespace  AukroAlarm
-// @version    0.0.0.1
+// @version    0.0.0.2
 // @namespace      
 // @author     Mica
 // @description   https://github.com/micovo/aukroalarmscript/   
-// @include    http://aukro.cz/*
-// @require    http://code.jquery.com/jquery-latest.min.js
+// @downloadURL   https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarmscript.js
+// @updateURL     https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarmscript.js
+// @include       http://aukro.cz/*
+// @require       http://code.jquery.com/jquery-latest.min.js
 // ==/UserScript==
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,14 +16,14 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-//Nastavení refreshování
-AlarmTime = 5*1000; //milisekundy
-RefreshTime = 60*1000; //milisekundy
+//Timers setup
+AlarmTime = 5*1000; //miliseconds
+RefreshTime = 60*1000; //miliseconds
 
-//Nastavení alarmu
-sekundDoKonceAlarm = 3*60; //sekundy
+//Alarm setup
+secondsToEndAlarm = 3*60; //seconds
 
-//Link na sample alarmu
+//Link on the alarm sample
 mAlarmSound = new Audio("https://www.dropbox.com/s/opz32tj8hzzxqi1/smokealarm.mp3?dl=1");
  
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,55 +33,51 @@ mAlarmSound = new Audio("https://www.dropbox.com/s/opz32tj8hzzxqi1/smokealarm.mp
 
 
 var sledovano = 0;
-var aukce = "sem-linej-tohle-implementovat";
-var sekundDoKonce = -1;
+var auctionId = "1234512345"; //TODO get auction ID from page URL
+var secondsToEnd = -1;
 
 
 $(document).ready(function() 
 {  
-    
-    
-    var sekundDoKonce = 0;
-    
     var timeStr = $("li.timeInfo strong").text();
     
-    sekundDoKonce = parseInt(timeStr);
+    secondsToEnd = parseInt(timeStr);
     
     if (timeStr.indexOf("Méně než minuta") > -1)
     {
-        sekundDoKonce = 1;
+        secondsToEnd = 1;
     }
     else if (timeStr.indexOf("minut") > -1)
     {
-        sekundDoKonce = sekundDoKonce * 60;
+        secondsToEnd = secondsToEnd * 60;
     }
     else if (timeStr.indexOf("hodin") > -1)
     {
-        sekundDoKonce = sekundDoKonce * 60 * 60;
+        secondsToEnd = secondsToEnd * 60 * 60;
     }
     else if ((timeStr.indexOf("den") > -1) || (timeStr.indexOf("dn") > -1))
     {
-        sekundDoKonce = sekundDoKonce * 24 * 60 * 60; 
+        secondsToEnd = secondsToEnd * 24 * 60 * 60; 
     }
     else
     {
-        sekundDoKonce = 0;
+        secondsToEnd = 0;
     }
     
 
     
     
     
-    sledovano = getGMCookie(aukce, 0);
+    sledovano = getGMCookie(auctionId, 0);
     
     if (sledovano == 1)
     {
-        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Zrušit sledování</button>&nbsp;&nbsp;&nbsp;Do konce: '+sekundDoKonce+' s, Alarm: '+sekundDoKonceAlarm+' s </div>');
+        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Zrušit sledování</button>&nbsp;&nbsp;&nbsp;Do konce: '+secondsToEnd+' s, Alarm: '+secondsToEndAlarm+' s </div>');
         window.setTimeout(RefreshTimer, RefreshTime);
 
-        if (sekundDoKonce > 0)
+        if (secondsToEnd > 0)
         {
-            if (sekundDoKonce <= sekundDoKonceAlarm)
+            if (secondsToEnd <= secondsToEndAlarm)
             {
                 AlarmTimer();
             }
@@ -87,7 +85,7 @@ $(document).ready(function()
     }
     else
     {
-        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Sledovat skriptem</button>&nbsp;&nbsp;&nbsp;Do konce: '+sekundDoKonce+' s</div>');
+        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Sledovat skriptem</button>&nbsp;&nbsp;&nbsp;Do konce: '+secondsToEnd+' s</div>');
     }
 });
 
@@ -100,11 +98,11 @@ $(document).on( "click", "button#micaButton", function()
     
     if (sledovano == 1)
     {
-        setGMCookie(aukce, 0);
+        setGMCookie(auctionId, 0);
     }
     else
     {
-        setGMCookie(aukce, 1);
+        setGMCookie(auctionId, 1);
         
     }
     
