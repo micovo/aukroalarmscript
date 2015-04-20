@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          AukroAlarm
 // @namespace     AukroAlarm
-// @version       1.0.0.0
+// @version       1.0.0.1
 // @namespace     https://github.com/micovo/aukroalarmscript/       
 // @author        Mica
 // @description   Alarm script for Aukro.cz  
