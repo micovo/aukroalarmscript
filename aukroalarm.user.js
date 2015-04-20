@@ -35,7 +35,7 @@ mAlarmSound = new Audio("https://www.dropbox.com/s/opz32tj8hzzxqi1/smokealarm.mp
 
 //Global variables
 var sledovano = 0;
-var auctionId = "1234512345"; //TODO get auction ID from page URL
+var auctionId = window.location.href.split('.html')[0].slice(-10); // auction ID from page URL
 var secondsToEnd = -1;
 
 
