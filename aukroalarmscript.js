@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       AukroAlarm
 // @namespace  AukroAlarm
-// @version    0.0.0.2
+// @version    1.0.0.0
 // @namespace      
 // @author     Mica
 // @description   https://github.com/micovo/aukroalarmscript/   
@@ -32,10 +32,17 @@ mAlarmSound = new Audio("https://www.dropbox.com/s/opz32tj8hzzxqi1/smokealarm.mp
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
+//Global variables
 var sledovano = 0;
 var auctionId = "1234512345"; //TODO get auction ID from page URL
 var secondsToEnd = -1;
 
+
+//////////////////////////////////////////////////////////////////////
+//
+//  Main
+//
+//////////////////////////////////////////////////////////////////////
 
 $(document).ready(function() 
 {  
@@ -64,34 +71,37 @@ $(document).ready(function()
         secondsToEnd = 0;
     }
     
+    if (secondsToEnd < 24*60*60)
+    {
+        secondsToEnd = UpdateSecondsToEnd();
+    }
+    
 
-    
-    
-    
     sledovano = getGMCookie(auctionId, 0);
     
     if (sledovano == 1)
     {
-        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Zrušit sledování</button>&nbsp;&nbsp;&nbsp;Do konce: '+secondsToEnd+' s, Alarm: '+secondsToEndAlarm+' s </div>');
-        window.setTimeout(RefreshTimer, RefreshTime);
-
-        if (secondsToEnd > 0)
-        {
-            if (secondsToEnd <= secondsToEndAlarm)
-            {
-                AlarmTimer();
-            }
-        }
+        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Zrušit sledování</button>&nbsp;&nbsp;&nbsp;Do konce: <span id="secondsToEnd">'+secondsToEnd+'</span> s, Alarm: '+secondsToEndAlarm+' s </div>');
     }
     else
     {
-        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Sledovat skriptem</button>&nbsp;&nbsp;&nbsp;Do konce: '+secondsToEnd+' s</div>');
+        $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton">Sledovat skriptem</button>&nbsp;&nbsp;&nbsp;Do konce: <span id="secondsToEnd">'+secondsToEnd+'</span> s</div>');
     }
+    
+    
+   
+    
+    SecondTickTimer();
 });
 
 
 
 
+//////////////////////////////////////////////////////////////////////
+//
+//  Events
+//
+//////////////////////////////////////////////////////////////////////
 
 $(document).on( "click", "button#micaButton", function()
 {
@@ -109,7 +119,11 @@ $(document).on( "click", "button#micaButton", function()
     location.reload();
 });
 
-
+//////////////////////////////////////////////////////////////////////
+//
+//  Timers
+//
+//////////////////////////////////////////////////////////////////////
 
 
 function AlarmTimer()
@@ -125,6 +139,66 @@ function RefreshTimer()
     window.setTimeout(RefreshTimer, RefreshTime);
 }
 
+function SecondTickTimer()
+{
+    secondsToEnd = UpdateSecondsToEnd();
+    $("span#secondsToEnd").text(secondsToEnd);
+    
+    if (sledovano == 1)
+    {
+        if (secondsToEnd > 0)
+        {
+            if (secondsToEnd <= secondsToEndAlarm)
+            {
+                AlarmTimer();
+            }
+        }
+    }
+    
+    window.setTimeout(SecondTickTimer, 1000);
+}
+
+
+//////////////////////////////////////////////////////////////////////
+//
+//  Functions
+//
+//////////////////////////////////////////////////////////////////////
+
+function UpdateSecondsToEnd()
+{
+    timeStr = $("li.timeInfo").text().split(",")[2];
+    timeStr = timeStr.substring(1, 9);
+    var endDate = parseTime(timeStr);
+    var nowDate = new Date();
+
+    if (nowDate > endDate)
+    {
+        endDate = endDate.setDate(endDate.getDate()+1);   
+    }
+
+    return Math.round((endDate - nowDate)/1000);
+}
+
+//////////////////////////////////////////////////////////////////////
+//                                  
+//  Helpers
+//
+//////////////////////////////////////////////////////////////////////
+
+
+function parseTime(timeStr, dt) {
+    if (!dt) {
+        dt = new Date();
+    }
+ 
+    var time = timeStr.split(":");
+ 
+    dt.setHours(parseInt(time[0]));
+    dt.setMinutes(parseInt(time[1]));
+    dt.setSeconds(parseInt(time[2]));
+    return dt;
+}
 
 function setGMCookie(key, value){
 	GM_setValue(key, value);
