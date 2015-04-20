@@ -1,14 +1,15 @@
 // ==UserScript==
-// @name       AukroAlarm
-// @namespace  AukroAlarm
-// @version    1.0.0.0
-// @namespace      
-// @author     Mica
-// @description   https://github.com/micovo/aukroalarmscript/   
+// @name          AukroAlarm
+// @namespace     AukroAlarm
+// @version       1.0.0.0
+// @namespace     https://github.com/micovo/aukroalarmscript/       
+// @author        Mica
+// @description   Alarm script for Aukro.cz  
 // @downloadURL   https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarmscript.js
 // @updateURL     https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarmscript.js
 // @include       http://aukro.cz/*
 // @require       http://code.jquery.com/jquery-latest.min.js
+// @run-at        document-end
 // ==/UserScript==
 
 //////////////////////////////////////////////////////////////////////////////////////////////
