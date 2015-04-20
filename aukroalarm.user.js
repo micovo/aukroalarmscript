@@ -5,8 +5,8 @@
 // @namespace     https://github.com/micovo/aukroalarmscript/       
 // @author        Mica
 // @description   Alarm script for Aukro.cz  
-// @downloadURL   https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarmscript.js
-// @updateURL     https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarmscript.js
+// @downloadURL   https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarm.user.js
+// @updateURL     https://raw.githubusercontent.com/micovo/aukroalarmscript/master/aukroalarm.user.js
 // @include       http://aukro.cz/*
 // @require       http://code.jquery.com/jquery-latest.min.js
 // @run-at        document-end
