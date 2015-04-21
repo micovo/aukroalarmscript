@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          AukroAlarm
 // @namespace     AukroAlarm
-// @version       1.0.0.1
+// @version       1.0.0.2
 // @namespace     https://github.com/micovo/aukroalarmscript/       
 // @author        Mica
 // @description   Alarm script for Aukro.cz  
@@ -106,7 +106,7 @@ aukroAlarm.init = function () {
     }
     this.watching = this.getGMCookie(this.auctionId, false);
     
-    $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton"></button>&nbsp;&nbsp;&nbsp;Do konce: <span id="secondsToEnd">x</span> s, Alarm: '+this.secondsToEndAlarm+' s </div>');
+    $('div#siBidForm2').append('<div id="micaContainer" style="padding:20px;"><button id="micaButton"></button>&nbsp;&nbsp;&nbsp;Do konce: <span id="secondsToEnd"></span> s, Alarm: '+this.secondsToEndAlarm+' s </div>');
     $('#micaButton').text(this.watching ? 'Zrušit sledování' : 'Sledovat');
     
     this.mAlarmSound.addEventListener('ended', function() {
