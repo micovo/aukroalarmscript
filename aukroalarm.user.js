@@ -48,7 +48,7 @@ aukroAlarm.setGMCookie = function (key, value) {
 aukroAlarm.getGMCookie = function (key, defaultValue) {
     var gotValue;
     gotValue = GM_getValue(key, null);
-    if(gotValue == null){
+    if(gotValue === null){
         this.setGMCookie(key, defaultValue);
         gotValue = defaultValue;
     }
@@ -68,7 +68,7 @@ aukroAlarm.parseTime = function (timeStr, dt) {
 
 aukroAlarm.isInt = function (n) {
     return (parseFloat(n) == parseInt(n, 10) && !isNaN(n));
-}
+};
 
 //  Worker
 
@@ -123,7 +123,7 @@ $(document).ready(function() {
 
 //  Events
 
-$(document).on( 'click', 'button#micaButton', function() {
+$(document).on('click', 'button#micaButton', function() {
     aukroAlarm.setGMCookie(aukroAlarm.auctionId, !aukroAlarm.watching);
     location.reload();
 });
