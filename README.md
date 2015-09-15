@@ -1,4 +1,4 @@
-# AukroAlarmScript
+# Aukro Alarm Script
 
 Use TamperMonkey (Chrome) or Scriptish (Firefox) to run this script on your Webbrowser
 
